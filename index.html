@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reactivos Químicos - UAT</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #003b5c;
+            color: #000000;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #cb6015;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            border: 2px solid #cb6015;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #003b5c;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .logos {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logos img {
+            height: 80px;
+        }
+        h1 {
+            color: #003b5c;
+            text-align: center;
+            margin: 0;
+            flex-grow: 1;
+            font-size: 24px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            color: #000000;
+        }
+        th {
+            background-color: #003b5c;
+            color: white !important;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000000;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #000000;
+            background-color: #ffffff;
+        }
+        button {
+            background-color: #003b5c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+        button:hover {
+            background-color: #cb6015;
+        }
+        .btn-pedido {
+            background-color: #28a745;
+        }
+        .btn-pedido:hover {
+            background-color: #218838;
+        }
+        .alert {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #000000;
+        }
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            color: #000000;
+        }
+        .tab.active {
+            background-color: #003b5c;
+            color: white;
+            border-color: #003b5c;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+            color: #000000;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 7px;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            color: black;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border-radius: 10px;
+        }
+        .badge-danger {
+            background-color: #dc3545;
+        }
+        .badge-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .badge-success {
+            background-color: #28a745;
+        }
+        .badge-info {
+            background-color: #17a2b8;
+        }
+        
+        /* Estilos para el rombo NFPA */
+        .nfpa-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .nfpa-diamond {
+            width: 150px;
+            height: 150px;
+            transform: rotate(45deg);
+            border: 2px solid black;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 auto;
+        }
+        .nfpa-section {
+            width: 50%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .nfpa-red {
+            background-color: #FF0000;
+            top: 0;
+            left: 25%;
+            transform: translate(-50%, 0);
+            color: white;
+        }
+        .nfpa-blue {
+            background-color: #0000FF;
+            top: 25%;
+            left: 0;
+            transform: translate(0, -50%);
+            color: white;
+        }
+        .nfpa-yellow {
+            background-color: #FFFF00;
+            top: 25%;
+            right: 0;
+            transform: translate(0, -50%);
+            color: black;
+        }
+        .nfpa-white {
+            background-color: #FFFFFF;
+            bottom: 0;
+            left: 25%;
+            transform: translate(-50%, 0);
+            color: black;
+            border: 1px solid #ccc;
+        }
+        .nfpa-number {
+            transform: rotate(-45deg);
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+        }
+        .nfpa-label {
+            position: absolute;
+            bottom: -25px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            color: #000000;
+        }
+        .nfpa-symbol {
+            transform: rotate(-45deg);
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        /* Estilos para la información de peligrosidad */
+        .hazard-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #003b5c;
+            color: #000000;
+        }
+        .hazard-info h3 {
+            margin-top: 0;
+            color: #003b5c;
+        }
+        .hazard-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .hazard-level {
+            padding: 10px;
+            border-radius: 5px;
+            color: #000000;
+        }
+        
+        /* Modal para contraseña */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        
+        /* Modal para pedido */
+        .pedido-form {
+            margin-top: 20px;
+        }
+        .pedido-form .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logos">
+                <img src="C:\Users\Julio\Downloads\imagenes\download.png" alt="Logo UAT">
+            </div>
+            <h1>🧪 Sistema de Gestión de Reactivos Químicos - FCQ UAT</h1>
+            <div class="logos">
+                <img src="C:\Users\Julio\Downloads\imagenes\download.jpeg" alt="Logo FCQ UAT">
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="openTab('inventario')">Inventario</div>
+            <div class="tab" onclick="verificarAcceso('agregar')">Agregar Reactivo</div>
+            <div class="tab" onclick="openTab('reportes')">Reportes</div>
+            <div class="tab" onclick="openTab('seguridad')">Seguridad</div>
+            <div class="tab" onclick="openTab('pedidos')">Pedir Reactivos</div>
+        </div>
+        
+        <!-- Pestaña de Inventario -->
+        <div id="inventario" class="tab-content active">
+            <div class="section">
+                <h2>Inventario Completo</h2>
+                <div class="form-group">
+                    <input type="text" id="buscarReactivo" placeholder="Buscar reactivo..." onkeyup="filtrarReactivos()">
+                </div>
+                <table id="tablaReactivos">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fórmula</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                            <th>Categoría</th>
+                            <th>Peligrosidad</th>
+                            <th>Ubicación</th>
+                            <th>Caducidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaReactivos">
+                        <!-- Los reactivos se cargarán aquí con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Pestaña para Agregar Reactivo -->
+        <div id="agregar" class="tab-content">
+            <div class="section">
+                <h2>Registrar Nuevo Reactivo</h2>
+                <form id="formReactivo" onsubmit="agregarReactivo(event)">
+                    <div class="form-group">
+                        <label for="nombre">Nombre del Reactivo:</label>
+                        <input type="text" id="nombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="formula">Fórmula Química:</label>
+                        <input type="text" id="formula">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" id="cantidad" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="unidad">Unidad:</label>
+                        <select id="unidad" required>
+                            <option value="mL">mL</option>
+                            <option value="L">L</option>
+                            <option value="g">g</option>
+                            <option value="kg">kg</option>
+                            <option value="cm">cm</option>
+                            <option value="pza">Pieza</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pureza">Pureza (%):</label>
+                        <input type="text" id="pureza">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoria">Categoría:</label>
+                        <select id="categoria" required>
+                            <option value="acido">Ácido</option>
+                            <option value="base">Base</option>
+                            <option value="solvente">Solvente</option>
+                            <option value="oxidante">Oxidante</option>
+                            <option value="inflamable">Inflamable</option>
+                            <option value="toxico">Tóxico</option>
+                            <option value="sal">Sal</option>
+                            <option value="metal">Metal</option>
+                            <option value="agar">Agar/Medio</option>
+                            <option value="colorante">Colorante</option>
+                            <option value="indicador">Indicador</option>
+                            <option value="organico">Orgánico</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="peligrosidad">Nivel de Peligrosidad:</label>
+                        <select id="peligrosidad" required>
+                            <option value="none">Ninguno</option>
+                            <option value="leve">Leve</option>
+                            <option value="moderado">Moderado</option>
+                            <option value="alto">Alto</option>
+                            <option value="extremo">Extremo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="almacenamiento">Almacenamiento:</label>
+                        <select id="almacenamiento" required>
+                            <option value="gab_acidos">Gab. Ácidos</option>
+                            <option value="gab_bases">Gab. Bases</option>
+                            <option value="gab_inflamable">Gab. Inflamables</option>
+                            <option value="gab_toxicos">Gab. Tóxicos</option>
+                            <option value="estante_general">Estante General</option>
+                            <option value="refrigerador">Refrigerador</option>
+                            <option value="campana">Campana</option>
+                            <option value="gab_metales">Gab. Metales</option>
+                            <option value="almacen_seco">Almacén Seco</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fechaCaducidad">Fecha de Caducidad:</label>
+                        <input type="date" id="fechaCaducidad">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ubicacion">Ubicación:</label>
+                        <input type="text" id="ubicacion" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="proveedor">Proveedor:</label>
+                        <input type="text" id="proveedor">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="incompatibilidades">Incompatibilidades (separar por comas):</label>
+                        <input type="text" id="incompatibilidades">
+                    </div>
+                    
+                    <button type="submit">Guardar Reactivo</button>
+                    <button type="button" onclick="openTab('inventario')">Cancelar</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Pestaña de Reportes -->
+        <div id="reportes" class="tab-content">
+            <div class="section">
+                <h2>Reportes y Alertas</h2>
+                
+                <div class="alert alert-warning" id="alertasCaducidad">
+                    <h3>⚠ Reactivos próximos a caducar (próximos 30 días)</h3>
+                    <ul id="listaCaducados">
+                        <!-- Alertas generadas por JS -->
+                    </ul>
+                </div>
+                
+                <h3>Reactivos Críticos (Alta Peligrosidad)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Peligrosidad</th>
+                            <th>Cantidad</th>
+                            <th>Ubicación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reactivosCriticos">
+                        <!-- Datos generados por JS -->
+                    </tbody>
+                </table>
+                
+                <h3>Inventario por Categoría</h3>
+                <div id="resumenCategorias" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                    <!-- Resumen generado por JS -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pestaña de Seguridad -->
+        <div id="seguridad" class="tab-content">
+            <div class="section">
+                <h2>Información de Seguridad Química</h2>
+                
+                <div class="nfpa-container">
+                    <div>
+                        <div class="nfpa-diamond">
+                            <div class="nfpa-section nfpa-red">
+                                <div class="nfpa-number" id="nfpa-salud">0</div>
+                            </div>
+                            <div class="nfpa-section nfpa-blue">
+                                <div class="nfpa-number" id="nfpa-inflamabilidad">0</div>
+                            </div>
+                            <div class="nfpa-section nfpa-yellow">
+                                <div class="nfpa-number" id="nfpa-reactividad">0</div>
+                            </div>
+                            <div class="nfpa-section nfpa-white">
+                                <div class="nfpa-symbol" id="nfpa-especial"></div>
+                            </div>
+                        </div>
+                        <div class="nfpa-label">Rombo NFPA 704</div>
+                    </div>
+                </div>
+                
+                <div class="hazard-info">
+                    <h3>Significado del Rombo de Seguridad NFPA 704</h3>
+                    <div class="hazard-levels">
+                        <div class="hazard-level" style="background-color: #FFEBEE;">
+                            <h4>Salud (Azul)</h4>
+                            <p><strong>0:</strong> Sin riesgo</p>
+                            <p><strong>1:</strong> Leve irritación</p>
+                            <p><strong>2:</strong> Peligroso con exposición prolongada</p>
+                            <p><strong>3:</strong> Extremadamente peligroso</p>
+                            <p><strong>4:</strong> Letal en corta exposición</p>
+                        </div>
+                        <div class="hazard-level" style="background-color: #FFF8E1;">
+                            <h4>Inflamabilidad (Rojo)</h4>
+                            <p><strong>0:</strong> No inflamable</p>
+                            <p><strong>1:</strong> Requiere calentamiento para combustion</p>
+                            <p><strong>2:</strong> Se inflama con calor moderado</p>
+                            <p><strong>3:</strong> Se inflama en casi cualquier temperatura</p>
+                            <p><strong>4:</strong> Extremadamente inflamable</p>
+                        </div>
+                        <div class="hazard-level" style="background-color: #E8F5E9;">
+                            <h4>Reactividad (Amarillo)</h4>
+                            <p><strong>0:</strong> Estable</p>
+                            <p><strong>1:</strong> Inestable con calor</p>
+                            <p><strong>2:</strong> Cambio químico violento</p>
+                            <p><strong>3:</strong> Puede detonar con choque o calor</p>
+                            <p><strong>4:</strong> Puede detonar a temperatura ambiente</p>
+                        </div>
+                        <div class="hazard-level" style="background-color: #E3F2FD;">
+                            <h4>Riesgos Especiales (Blanco)</h4>
+                            <p><strong>W:</strong> Reacciona con agua</p>
+                            <p><strong>OX:</strong> Oxidante</p>
+                            <p><strong>SA:</strong> Gas asfixiante</p>
+                            <p><strong>COR:</strong> Corrosivo</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hazard-info">
+                    <h3>Procedimientos de Emergencia</h3>
+                    <ul>
+                        <li>En caso de derrame, usar equipo de protección personal adecuado</li>
+                        <li>Para reactivos inflamables, usar extintor tipo ABC o CO₂</li>
+                        <li>En contacto con piel, lavar con abundante agua durante 15 minutos</li>
+                        <li>En caso de inhalación, mover a la persona a aire fresco</li>
+                        <li>Para emergencias, llamar al número interno de seguridad</li>
+                        <li>Usar el vaso apropiado para transportar los acidos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pestaña de Pedidos -->
+        <div id="pedidos" class="tab-content">   
+         <div class="section">
+                <h2>Solicitud de Reactivos</h2>
+                <div class="form-group">
+                    <label for="reactivo-pedido">Reactivo:</label>
+                    <select id="reactivo-pedido" class="form-control">
+                        <!-- Se llenará con JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cantidad-pedido">Cantidad:</label>
+                    <input type="number" id="cantidad-pedido" class="form-control" min="1" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="unidad-pedido">Unidad:</label>
+                    <select id="unidad-pedido" class="form-control" required>
+                        <option value="mL">mL</option>
+                        <option value="L">L</option>
+                        <option value="g">g</option>
+                        <option value="kg">kg</option>
+                        <option value="pza">Pieza</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="solicitante-pedido">Solicitante:</label>
+                    <input type="text" id="solicitante-pedido" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="proyecto-pedido">Proyecto/Asignatura:</label>
+                    <input type="text" id="proyecto-pedido" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha-requerida-pedido">Fecha requerida:</label>
+                    <input type="date" id="fecha-requerida-pedido" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="justificacion-pedido">Justificación:</label>
+                    <textarea id="justificacion-pedido" class="form-control" rows="3" required></textarea>
+                </div>
+                
+                <button type="button" class="btn-pedido" onclick="enviarPedido()">Enviar Solicitud</button>
+                <button type="button" onclick="openTab('inventario')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para contraseña -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2>Autenticación requerida</h2>
+            <p>Ingrese la contraseña para acceder a esta función:</p>
+            <input type="password" id="passwordInput" class="form-control">
+            <button type="button" onclick="verificarPassword()" style="margin-top: 10px;">Verificar</button>
+            <p id="passwordError" style="color: red; display: none;">Contraseña incorrecta</p>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos inicial de reactivos (todos los solicitados)
+        let reactivos = [
+            // Aceites
+            {id: 1, nombre: "Aceite de anilina", formula: "C6H5NH2", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "organico", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-12-31", ubicacion: "A1", proveedor: "Sigma", incompatibilidades: "oxidantes"},
+            {id: 2, nombre: "Aceite de inmersión", formula: null, cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-06-30", ubicacion: "A2", proveedor: "Merck", incompatibilidades: ""},
+            {id: 3, nombre: "Aceite vegetal", formula: null, cantidad: 1000, unidad: "mL", pureza: "100%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-12-31", ubicacion: "A3", proveedor: "Fisher", incompatibilidades: ""},
+            
+            // Ácidos
+            {id: 4, nombre: "Ácido acético", formula: "CH3COOH", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "acido", peligrosidad: "corrosivo", almacenamiento: "gab_acidos", fechaCaducidad: "2025-11-30", ubicacion: "B1", proveedor: "Sigma", incompatibilidades: "bases"},
+            {id: 5, nombre: "Ácido acético glacial", formula: "CH3COOH", cantidad: 500, unidad: "mL", pureza: "100%", categoria: "acido", peligrosidad: "corrosivo", almacenamiento: "gab_acidos", fechaCaducidad: "2025-10-31", ubicacion: "B2", proveedor: "Sigma", incompatibilidades: "bases"},
+            {id: 6, nombre: "Ácido clorhídrico", formula: "HCl", cantidad: 1000, unidad: "mL", pureza: "37%", categoria: "acido", peligrosidad: "corrosivo", almacenamiento: "gab_acidos", fechaCaducidad: "2025-09-30", ubicacion: "B3", proveedor: "Merck", incompatibilidades: "bases,metales"},
+            {id: 7, nombre: "Ácido nítrico", formula: "HNO3", cantidad: 500, unidad: "mL", pureza: "70%", categoria: "acido", peligrosidad: "corrosivo", almacenamiento: "gab_acidos", fechaCaducidad: "2025-08-31", ubicacion: "B4", proveedor: "Fisher", incompatibilidades: "organicos"},
+            {id: 8, nombre: "Ácido sulfúrico", formula: "H2SO4", cantidad: 500, unidad: "mL", pureza: "95%", categoria: "acido", peligrosidad: "extremo", almacenamiento: "gab_acidos", fechaCaducidad: "2025-12-31", ubicacion: "B5", proveedor: "Sigma", incompatibilidades: "bases,metales"},
+            
+            // Solventes orgánicos
+            {id: 9, nombre: "Acetona", formula: "C3H6O", cantidad: 1000, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "inflamable", almacenamiento: "gab_inflamable", fechaCaducidad: "2026-05-15", ubicacion: "C1", proveedor: "Sigma", incompatibilidades: "oxidantes"},
+            {id: 10, nombre: "Alcohol etílico", formula: "C2H5OH", cantidad: 2000, unidad: "mL", pureza: "96%", categoria: "solvente", peligrosidad: "inflamable", almacenamiento: "gab_inflamable", fechaCaducidad: "2026-07-20", ubicacion: "C2", proveedor: "Merck", incompatibilidades: "oxidantes"},
+            {id: 11, nombre: "Cloroformo", formula: "CHCl3", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "toxico", almacenamiento: "campana", fechaCaducidad: "2025-12-15", ubicacion: "C3", proveedor: "Fisher", incompatibilidades: ""},
+            
+            // Sales y compuestos inorgánicos
+            {id: 12, nombre: "Cloruro de sodio", formula: "NaCl", cantidad: 1000, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-01-01", ubicacion: "D1", proveedor: "VWR", incompatibilidades: ""},
+            {id: 13, nombre: "Sulfato de cobre II", formula: "CuSO4", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-03-31", ubicacion: "D2", proveedor: "Sigma", incompatibilidades: ""},
+            
+            // Bases
+            {id: 14, nombre: "Hidróxido de sodio", formula: "NaOH", cantidad: 500, unidad: "g", pureza: "99%", categoria: "base", peligrosidad: "extremo", almacenamiento: "gab_bases", fechaCaducidad: "2025-11-30", ubicacion: "E1", proveedor: "Merck", incompatibilidades: "acidos,metales"},
+            {id: 15, nombre: "Hidróxido de potasio", formula: "KOH", cantidad: 500, unidad: "g", pureza: "85%", categoria: "base", peligrosidad: "extremo", almacenamiento: "gab_bases", fechaCaducidad: "2025-10-31", ubicacion: "E2", proveedor: "Sigma", incompatibilidades: "acidos"},
+            
+            // Oxidantes
+            {id: 16, nombre: "Permanganato de potasio", formula: "KMnO4", cantidad: 250, unidad: "g", pureza: "99%", categoria: "oxidante", peligrosidad: "alto", almacenamiento: "estante_oxidantes", fechaCaducidad: "2026-04-30", ubicacion: "F1", proveedor: "Sigma", incompatibilidades: "organicos"},
+            {id: 17, nombre: "Peróxido de hidrógeno", formula: "H2O2", cantidad: 500, unidad: "mL", pureza: "30%", categoria: "oxidante", peligrosidad: "alto", almacenamiento: "estante_oxidantes", fechaCaducidad: "2025-12-31", ubicacion: "F2", proveedor: "Merck", incompatibilidades: "metales"},
+            
+            // Agares y medios de cultivo
+            {id: 18, nombre: "Agar nutritivo", formula: null, cantidad: 500, unidad: "g", pureza: "100%", categoria: "agar", peligrosidad: "none", almacenamiento: "refrigerador", fechaCaducidad: "2026-06-30", ubicacion: "G1", proveedor: "BD", incompatibilidades: ""},
+            {id: 19, nombre: "Agar sangre", formula: null, cantidad: 250, unidad: "g", pureza: "100%", categoria: "agar", peligrosidad: "none", almacenamiento: "refrigerador", fechaCaducidad: "2026-05-31", ubicacion: "G2", proveedor: "Oxoid", incompatibilidades: ""},
+            
+            // Metales
+            {id: 20, nombre: "Sodio metálico", formula: "Na", cantidad: 100, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "extremo", almacenamiento: "aceite", fechaCaducidad: "2025-09-30", ubicacion: "H1", proveedor: "Sigma", incompatibilidades: "agua"},
+            {id: 21, nombre: "Zinc en granalla", formula: "Zn", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "none", almacenamiento: "estante_metales", fechaCaducidad: "2027-01-01", ubicacion: "H2", proveedor: "Merck", incompatibilidades: "acidos"},
+            
+            // Colorantes
+            {id: 22, nombre: "Azul de metileno", formula: "C16H18ClN3S", cantidad: 100, unidad: "g", pureza: "99%", categoria: "colorante", peligrosidad: "none", almacenamiento: "estante_colorantes", fechaCaducidad: "2026-08-31", ubicacion: "I1", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 23, nombre: "Cristal violeta", formula: "C25H30ClN3", cantidad: 50, unidad: "g", pureza: "99%", categoria: "colorante", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-07-31", ubicacion: "I2", proveedor: "Merck", incompatibilidades: ""},
+
+            // Agregar más reactivos según sea necesario...
+            {id: 24, nombre: "Ácido acetil salicílico", formula: "C9H8O4", cantidad: 200, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-03-15", ubicacion: "J1", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 25, nombre: "Ácido benzoico", formula: "C7H6O2", cantidad: 300, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-04-20", ubicacion: "J2", proveedor: "Merck", incompatibilidades: ""},
+            {id: 26, nombre: "Ácido cítrico", formula: "C6H8O7", cantidad: 400, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "leve", almacenamiento: "estante_general", fechaCaducidad: "2026-05-10", ubicacion: "J3", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 27, nombre: "Ácido láctico", formula: "C3H6O3", cantidad: 250, unidad: "mL", pureza: "85%", categoria: "acido", peligrosidad: "moderado", almacenamiento: "gab_acidos", fechaCaducidad: "2025-11-15", ubicacion: "B6", proveedor: "Sigma", incompatibilidades: "bases"},
+            {id: 28, nombre: "Ácido salicílico", formula: "C7H6O3", cantidad: 150, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-02-28", ubicacion: "J4", proveedor: "Merck", incompatibilidades: ""},
+            {id: 29, nombre: "Agar CLED", formula: null, cantidad: 200, unidad: "g", pureza: "100%", categoria: "agar", peligrosidad: "none", almacenamiento: "refrigerador", fechaCaducidad: "2026-07-15", ubicacion: "G3", proveedor: "Oxoid", incompatibilidades: ""},
+            {id: 30, nombre: "Agar MacConkey", formula: null, cantidad: 300, unidad: "g", pureza: "100%", categoria: "agar", peligrosidad: "none", almacenamiento: "refrigerador", fechaCaducidad: "2026-08-20", ubicacion: "G4", proveedor: "BD", incompatibilidades: ""},
+            {id: 31, nombre: "Alambre de cobre", formula: "Cu", cantidad: 500, unidad: "cm", pureza: "99%", categoria: "metal", peligrosidad: "none", almacenamiento: "estante_metales", fechaCaducidad: "2027-02-15", ubicacion: "H3", proveedor: "Fisher", incompatibilidades: "acidos"},
+            {id: 32, nombre: "Alcohol butílico", formula: "C4H9OH", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "inflamable", almacenamiento: "gab_inflamable", fechaCaducidad: "2026-06-30", ubicacion: "C4", proveedor: "Sigma", incompatibilidades: "oxidantes"},
+            {id: 33, nombre: "Alcohol metílico", formula: "CH3OH", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-12-15", ubicacion: "C5", proveedor: "Merck", incompatibilidades: "oxidantes"},
+            {id: 34, nombre: "Almidón", formula: "(C6H10O5)n", cantidad: 500, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-09-30", ubicacion: "K1", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 35, nombre: "Aluminio", formula: "Al", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "none", almacenamiento: "estante_metales", fechaCaducidad: "2027-03-20", ubicacion: "H4", proveedor: "Fisher", incompatibilidades: "acidos"},
+            {id: 36, nombre: "Anaranjado de metilo", formula: "C14H14N3NaO3S", cantidad: 50, unidad: "g", pureza: "99%", categoria: "indicador", peligrosidad: "leve", almacenamiento: "estante_general", fechaCaducidad: "2026-10-15", ubicacion: "L1", proveedor: "Merck", incompatibilidades: ""},
+            {id: 37, nombre: "Azufre en polvo", formula: "S", cantidad: 500, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-04-10", ubicacion: "K2", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 38, nombre: "Benceno", formula: "C6H6", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "toxico", almacenamiento: "campana", fechaCaducidad: "2025-11-30", ubicacion: "C6", proveedor: "Fisher", incompatibilidades: "oxidantes"},
+            {id: 39, nombre: "Bencidina", formula: "C12H12N2", cantidad: 100, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-10-31", ubicacion: "L2", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 40, nombre: "Benzoato de sodio", formula: "C7H5NaO2", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-11-30", ubicacion: "D3", proveedor: "Merck", incompatibilidades: ""},
+            {id: 41, nombre: "Bicarbonato de sodio", formula: "NaHCO3", cantidad: 1000, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-12-31", ubicacion: "D4", proveedor: "Fisher", incompatibilidades: "acidos"},
+            {id: 42, nombre: "Bromo", formula: "Br2", cantidad: 100, unidad: "mL", pureza: "99%", categoria: "toxico", peligrosidad: "extremo", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-09-15", ubicacion: "M1", proveedor: "Sigma", incompatibilidades: "organicos"},
+            {id: 43, nombre: "Bromuro de potasio", formula: "KBr", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-01-15", ubicacion: "D5", proveedor: "Merck", incompatibilidades: ""},
+            {id: 44, nombre: "Calcio", formula: "Ca", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "moderado", almacenamiento: "estante_metales", fechaCaducidad: "2027-02-28", ubicacion: "H5", proveedor: "Fisher", incompatibilidades: "agua"},
+            {id: 45, nombre: "Carbonato de calcio", formula: "CaCO3", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-03-31", ubicacion: "D6", proveedor: "Sigma", incompatibilidades: "acidos"},
+            {id: 46, nombre: "Carbonato de sodio anhidro", formula: "Na2CO3", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-10-31", ubicacion: "D7", proveedor: "Merck", incompatibilidades: "acidos"},
+            {id: 47, nombre: "Cloruro de bario", formula: "BaCl2", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-09-30", ubicacion: "D8", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 48, nombre: "Cloruro de bencilo", formula: "C6H5CH2Cl", cantidad: 250, unidad: "mL", pureza: "99%", categoria: "organico", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-12-31", ubicacion: "N1", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 49, nombre: "Cloruro férrico", formula: "FeCl3", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-08-31", ubicacion: "D9", proveedor: "Merck", incompatibilidades: ""},
+            {id: 50, nombre: "Cloruro de calcio", formula: "CaCl2", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-01-31", ubicacion: "D10", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 51, nombre: "Cobre", formula: "Cu", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "none", almacenamiento: "estante_metales", fechaCaducidad: "2027-04-30", ubicacion: "H6", proveedor: "Sigma", incompatibilidades: "acidos"},
+            {id: 52, nombre: "Cromato de potasio", formula: "K2CrO4", cantidad: 250, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-07-31", ubicacion: "D11", proveedor: "Merck", incompatibilidades: ""},
+            {id: 53, nombre: "Dicromato de potasio", formula: "K2Cr2O7", cantidad: 250, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-06-30", ubicacion: "D12", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 54, nombre: "Estearato de magnesio", formula: "Mg(C18H35O2)2", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-02-28", ubicacion: "D13", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 55, nombre: "Estaño", formula: "Sn", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "none", almacenamiento: "estante_metales", fechaCaducidad: "2027-03-31", ubicacion: "H7", proveedor: "Merck", incompatibilidades: "acidos"},
+            {id: 56, nombre: "Estroncio", formula: "Sr", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "moderado", almacenamiento: "estante_metales", fechaCaducidad: "2027-04-30", ubicacion: "H8", proveedor: "Fisher", incompatibilidades: "agua"},
+            {id: 57, nombre: "Éter de petróleo", formula: null, cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "inflamable", almacenamiento: "gab_inflamable", fechaCaducidad: "2026-05-31", ubicacion: "C7", proveedor: "Sigma", incompatibilidades: "oxidantes"},
+            {id: 58, nombre: "Éter etílico", formula: "C4H10O", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "inflamable", almacenamiento: "gab_inflamable", fechaCaducidad: "2026-04-30", ubicacion: "C8", proveedor: "Merck", incompatibilidades: "oxidantes"},
+            {id: 59, nombre: "Fenolftaleína", formula: "C20H14O4", cantidad: 50, unidad: "g", pureza: "99%", categoria: "indicador", peligrosidad: "leve", almacenamiento: "estante_general", fechaCaducidad: "2026-09-30", ubicacion: "L3", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 60, nombre: "Fluoruro de potasio", formula: "KF", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-08-31", ubicacion: "D14", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 61, nombre: "Fierro", formula: "Fe", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "none", almacenamiento: "estante_metales", fechaCaducidad: "2027-05-31", ubicacion: "H9", proveedor: "Merck", incompatibilidades: "acidos"},
+            {id: 62, nombre: "Fucsina", formula: "C20H19N3·HCl", cantidad: 50, unidad: "g", pureza: "99%", categoria: "colorante", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-07-31", ubicacion: "I3", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 63, nombre: "Glicerol", formula: "C3H8O3", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-10-31", ubicacion: "K3", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 64, nombre: "Glucosa al 10%", formula: "C6H12O6", cantidad: 500, unidad: "mL", pureza: "10%", categoria: "organico", peligrosidad: "none", almacenamiento: "refrigerador", fechaCaducidad: "2026-06-30", ubicacion: "K4", proveedor: "Merck", incompatibilidades: ""},
+            {id: 65, nombre: "Hidróxido de amonio", formula: "NH4OH", cantidad: 500, unidad: "mL", pureza: "28%", categoria: "base", peligrosidad: "alto", almacenamiento: "gab_bases", fechaCaducidad: "2025-11-30", ubicacion: "E3", proveedor: "Fisher", incompatibilidades: "acidos"},
+            {id: 66, nombre: "Hidróxido de bario", formula: "Ba(OH)2", cantidad: 500, unidad: "g", pureza: "99%", categoria: "base", peligrosidad: "alto", almacenamiento: "gab_bases", fechaCaducidad: "2025-10-31", ubicacion: "E4", proveedor: "Sigma", incompatibilidades: "acidos"},
+            {id: 67, nombre: "Hidróxido de calcio saturado", formula: "Ca(OH)2", cantidad: 500, unidad: "g", pureza: "99%", categoria: "base", peligrosidad: "moderado", almacenamiento: "gab_bases", fechaCaducidad: "2026-01-31", ubicacion: "E5", proveedor: "Merck", incompatibilidades: "acidos"},
+            {id: 68, nombre: "Hidróxido de sodio 5%", formula: "NaOH", cantidad: 500, unidad: "mL", pureza: "5%", categoria: "base", peligrosidad: "alto", almacenamiento: "gab_bases", fechaCaducidad: "2026-02-28", ubicacion: "E6", proveedor: "Fisher", incompatibilidades: "acidos"},
+            {id: 69, nombre: "Hidróxido de sodio 10%", formula: "NaOH", cantidad: 500, unidad: "mL", pureza: "10%", categoria: "base", peligrosidad: "alto", almacenamiento: "gab_bases", fechaCaducidad: "2026-03-31", ubicacion: "E7", proveedor: "Sigma", incompatibilidades: "acidos"},
+            {id: 70, nombre: "Lactosa", formula: "C12H22O11", cantidad: 500, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-11-30", ubicacion: "K5", proveedor: "Merck", incompatibilidades: ""},
+            {id: 71, nombre: "Litio", formula: "Li", cantidad: 100, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "alto", almacenamiento: "aceite", fechaCaducidad: "2025-12-31", ubicacion: "H10", proveedor: "Fisher", incompatibilidades: "agua"},
+            {id: 72, nombre: "Lugol parasitológico", formula: "I2/KI", cantidad: 250, unidad: "mL", pureza: "5%", categoria: "colorante", peligrosidad: "moderado", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-04-30", ubicacion: "I4", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 73, nombre: "Magnesio", formula: "Mg", cantidad: 500, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "moderado", almacenamiento: "estante_metales", fechaCaducidad: "2027-01-31", ubicacion: "H11", proveedor: "Merck", incompatibilidades: "acidos"},
+            {id: 74, nombre: "Mercurio", formula: "Hg", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "metal", peligrosidad: "extremo", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-10-31", ubicacion: "H12", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 75, nombre: "Metionina", formula: "C5H11NO2S", cantidad: 100, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "refrigerador", fechaCaducidad: "2026-05-31", ubicacion: "K6", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 76, nombre: "Naftaleno", formula: "C10H8", cantidad: 500, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-06-30", ubicacion: "N2", proveedor: "Merck", incompatibilidades: ""},
+            {id: 77, nombre: "Nitrobenceno", formula: "C6H5NO2", cantidad: 250, unidad: "mL", pureza: "99%", categoria: "organico", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-11-30", ubicacion: "N3", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 78, nombre: "Nitrato de plata", formula: "AgNO3", cantidad: 100, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-07-31", ubicacion: "D15", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 79, nombre: "Nitrato de plomo II", formula: "Pb(NO3)2", cantidad: 250, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-08-31", ubicacion: "D16", proveedor: "Merck", incompatibilidades: ""},
+            {id: 80, nombre: "Nitrito de sodio", formula: "NaNO2", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-09-30", ubicacion: "D17", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 81, nombre: "Nitrato férrico", formula: "Fe(NO3)3", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-10-31", ubicacion: "D18", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 82, nombre: "Oxalato de amonio", formula: "(NH4)2C2O4", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-11-30", ubicacion: "D19", proveedor: "Merck", incompatibilidades: ""},
+            {id: 83, nombre: "Oxalato de sodio", formula: "Na2C2O4", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-12-31", ubicacion: "D20", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 84, nombre: "Óxido de cobre II", formula: "CuO", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2027-01-31", ubicacion: "D21", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 85, nombre: "Papel filtro", formula: null, cantidad: 100, unidad: "pza", pureza: "100%", categoria: "otro", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-05-31", ubicacion: "O1", proveedor: "Whatman", incompatibilidades: ""},
+            {id: 86, nombre: "Papel tornasol", formula: null, cantidad: 50, unidad: "cm", pureza: "100%", categoria: "indicador", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-06-30", ubicacion: "O2", proveedor: "Merck", incompatibilidades: ""},
+            {id: 87, nombre: "Pectina", formula: null, cantidad: 250, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2026-09-30", ubicacion: "K7", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 88, nombre: "Pentobarbital sódico", formula: "C11H17N2NaO3", cantidad: 50, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2025-12-31", ubicacion: "N4", proveedor: "Merck", incompatibilidades: ""},
+            {id: 89, nombre: "Permanganato de potasio", formula: "KMnO4", cantidad: 250, unidad: "g", pureza: "99%", categoria: "oxidante", peligrosidad: "alto", almacenamiento: "estante_oxidantes", fechaCaducidad: "2026-04-30", ubicacion: "F1", proveedor: "Sigma", incompatibilidades: "organicos"},
+            {id: 90, nombre: "Peróxido de hidrógeno", formula: "H2O2", cantidad: 500, unidad: "mL", pureza: "30%", categoria: "oxidante", peligrosidad: "alto", almacenamiento: "estante_oxidantes", fechaCaducidad: "2025-12-31", ubicacion: "F2", proveedor: "Merck", incompatibilidades: "metales"},
+            {id: 91, nombre: "Periodato de amonio", formula: "NH4IO4", cantidad: 250, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "alto", almacenamiento: "estante_oxidantes", fechaCaducidad: "2026-03-31", ubicacion: "D22", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 92, nombre: "Polivinilpirrolidona", formula: "(C6H9NO)n", cantidad: 500, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-01-31", ubicacion: "K8", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 93, nombre: "Potasio", formula: "K", cantidad: 100, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "extremo", almacenamiento: "aceite", fechaCaducidad: "2025-11-30", ubicacion: "H13", proveedor: "Merck", incompatibilidades: "agua"},
+            {id: 94, nombre: "Reactivo de Kovacs", formula: null, cantidad: 250, unidad: "mL", pureza: "100%", categoria: "reactivo", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-02-28", ubicacion: "N5", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 95, nombre: "Sacarosa", formula: "C12H22O11", cantidad: 500, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-03-31", ubicacion: "K9", proveedor: "Merck", incompatibilidades: ""},
+            {id: 96, nombre: "Safranina", formula: "C20H19ClN4", cantidad: 50, unidad: "g", pureza: "99%", categoria: "colorante", peligrosidad: "moderado", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-05-31", ubicacion: "I5", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 97, nombre: "Salicilato de sodio", formula: "C7H5NaO3", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-06-30", ubicacion: "D23", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 98, nombre: "Sodio", formula: "Na", cantidad: 100, unidad: "g", pureza: "99%", categoria: "metal", peligrosidad: "extremo", almacenamiento: "aceite", fechaCaducidad: "2025-12-31", ubicacion: "H14", proveedor: "Merck", incompatibilidades: "agua"},
+            {id: 99, nombre: "Sulfato de cobre pentahidratado", formula: "CuSO4·5H2O", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-07-31", ubicacion: "D24", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 100, nombre: "Sulfato de magnesio", formula: "MgSO4", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "none", almacenamiento: "estante_general", fechaCaducidad: "2027-04-30", ubicacion: "D25", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 101, nombre: "Sulfato ferroso", formula: "FeSO4", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-08-31", ubicacion: "D26", proveedor: "Merck", incompatibilidades: ""},
+            {id: 102, nombre: "Tolueno", formula: "C7H8", cantidad: 500, unidad: "mL", pureza: "99%", categoria: "solvente", peligrosidad: "inflamable", almacenamiento: "gab_inflamable", fechaCaducidad: "2026-03-31", ubicacion: "C9", proveedor: "Fisher", incompatibilidades: "oxidantes"},
+            {id: 103, nombre: "Wright colorante", formula: null, cantidad: 50, unidad: "g", pureza: "99%", categoria: "colorante", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-09-30", ubicacion: "I6", proveedor: "Sigma", incompatibilidades: ""},
+            {id: 104, nombre: "Yodo", formula: "I2", cantidad: 100, unidad: "g", pureza: "99%", categoria: "organico", peligrosidad: "toxico", almacenamiento: "gab_toxicos", fechaCaducidad: "2026-04-30", ubicacion: "N6", proveedor: "Merck", incompatibilidades: ""},
+            {id: 105, nombre: "Yoduro de amonio", formula: "NH4I", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-10-31", ubicacion: "D27", proveedor: "Fisher", incompatibilidades: ""},
+            {id: 106, nombre: "Yoduro de potasio", formula: "KI", cantidad: 500, unidad: "g", pureza: "99%", categoria: "sal", peligrosidad: "moderado", almacenamiento: "estante_general", fechaCaducidad: "2026-11-30", ubicacion: "D28", proveedor: "Sigma", incompatibilidades: ""}
+        ];
+
+        // Contraseña para acceder a funciones especiales
+        const PASSWORD = "FCQUAT";
+        let tabToOpenAfterAuth = 'inventario';
+
+        // Cargar reactivos al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarReactivos();
+            generarAlertas();
+            cargarReactivosCriticos();
+            cargarResumenCategorias();
+            actualizarRomboNFPA();
+            cargarReactivosParaPedido();
+        });
+
+        // Función para cargar reactivos en la tabla
+        function cargarReactivos() {
+            const tbody = document.getElementById('listaReactivos');
+            tbody.innerHTML = '';
+            
+            reactivos.forEach(reactivo => {
+                const tr = document.createElement('tr');
+                
+                // Determinar clase de peligrosidad
+                let clasePeligro = '';
+                let textoPeligro = '';
+                switch(reactivo.peligrosidad) {
+                    case 'none': textoPeligro = 'Ninguno'; break;
+                    case 'leve': textoPeligro = 'Leve'; clasePeligro = 'badge-success'; break;
+                    case 'moderado': textoPeligro = 'Moderado'; clasePeligro = 'badge-warning'; break;
+                    case 'alto': textoPeligro = 'Alto'; clasePeligro = 'badge-warning'; break;
+                    case 'extremo': textoPeligro = 'Extremo'; clasePeligro = 'badge-danger'; break;
+                    default: textoPeligro = reactivo.peligrosidad;
+                }
+                
+                tr.innerHTML = `
+                    <td>${reactivo.nombre}</td>
+                    <td>${reactivo.formula || '-'}</td>
+                    <td>${reactivo.cantidad}</td>
+                    <td>${reactivo.unidad}</td>
+                    <td>${traducirCategoria(reactivo.categoria)}</td>
+                    <td><span class="badge ${clasePeligro}">${textoPeligro}</span></td>
+                    <td>${reactivo.ubicacion}</td>
+                    <td>${reactivo.fechaCaducidad || 'N/A'}</td>
+                    <td>
+                        <button onclick="editarReactivo(${reactivo.id})">✏️</button>
+                        <button onclick="eliminarReactivo(${reactivo.id})">🗑️</button>
+                        <button class="btn-pedido" onclick="prepararPedido(${reactivo.id})">📦</button>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Función para traducir categorías
+        function traducirCategoria(categoria) {
+            const categorias = {
+                'acido': 'Ácido',
+                'base': 'Base',
+                'solvente': 'Solvente',
+                'oxidante': 'Oxidante',
+                'inflamable': 'Inflamable',
+                'toxico': 'Tóxico',
+                'sal': 'Sal',
+                'metal': 'Metal',
+                'agar': 'Agar',
+                'colorante': 'Colorante',
+                'indicador': 'Indicador',
+                'organico': 'Orgánico',
+                'otro': 'Otro'
+            };
+            return categorias[categoria] || categoria;
+        }
+
+        // Función para filtrar reactivos
+        function filtrarReactivos() {
+            const input = document.getElementById('buscarReactivo');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('tablaReactivos');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[0];
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Función para agregar nuevo reactivo
+        function agregarReactivo(event) {
+            event.preventDefault();
+            
+            const nuevoReactivo = {
+                id: reactivos.length > 0 ? Math.max(...reactivos.map(r => r.id)) + 1 : 1,
+                nombre: document.getElementById('nombre').value,
+                formula: document.getElementById('formula').value,
+                cantidad: parseFloat(document.getElementById('cantidad').value),
+                unidad: document.getElementById('unidad').value,
+                pureza: document.getElementById('pureza').value,
+                categoria: document.getElementById('categoria').value,
+                peligrosidad: document.getElementById('peligrosidad').value,
+                almacenamiento: document.getElementById('almacenamiento').value,
+                fechaCaducidad: document.getElementById('fechaCaducidad').value,
+                ubicacion: document.getElementById('ubicacion').value,
+                proveedor: document.getElementById('proveedor').value || "N/A",
+                incompatibilidades: document.getElementById('incompatibilidades').value || ""
+            };
+            
+            reactivos.push(nuevoReactivo);
+            cargarReactivos();
+            generarAlertas();
+            cargarReactivosCriticos();
+            cargarResumenCategorias();
+            cargarReactivosParaPedido();
+            document.getElementById('formReactivo').reset();
+            alert('Reactivo agregado correctamente');
+            openTab('inventario');
+        }
+
+        // Función para generar alertas de caducidad
+        function generarAlertas() {
+            const ahora = new Date();
+            const en30Dias = new Date(ahora.getTime() + 30 * 24 * 60 * 60 * 1000);
+            const lista = document.getElementById('listaCaducados');
+            lista.innerHTML = '';
+            
+            const proximos = reactivos.filter(r => {
+                if (!r.fechaCaducidad) return false;
+                const fechaCad = new Date(r.fechaCaducidad);
+                return fechaCad <= en30Dias && fechaCad >= ahora;
+            });
+            
+            if (proximos.length === 0) {
+                lista.innerHTML = '<li>No hay reactivos próximos a caducar</li>';
+                return;
+            }
+            
+            proximos.forEach(r => {
+                const li = document.createElement('li');
+                li.textContent = `${r.nombre} - Caduca: ${r.fechaCaducidad} (${r.ubicacion})`;
+                lista.appendChild(li);
+            });
+        }
+
+        // Función para cargar reactivos críticos
+        function cargarReactivosCriticos() {
+            const tbody = document.getElementById('reactivosCriticos');
+            tbody.innerHTML = '';
+            
+            const criticos = reactivos.filter(r => r.peligrosidad === 'alto' || r.peligrosidad === 'extremo');
+            
+            if (criticos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4">No hay reactivos críticos</td></tr>';
+                return;
+            }
+            
+            criticos.forEach(r => {
+                const tr = document.createElement('tr');
+                
+                let clasePeligro = '';
+                let textoPeligro = '';
+                switch(r.peligrosidad) {
+                    case 'alto': textoPeligro = 'Alto'; clasePeligro = 'badge-warning'; break;
+                    case 'extremo': textoPeligro = 'Extremo'; clasePeligro = 'badge-danger'; break;
+                }
+                
+                tr.innerHTML = `
+                    <td>${r.nombre}</td>
+                    <td><span class="badge ${clasePeligro}">${textoPeligro}</span></td>
+                    <td>${r.cantidad} ${r.unidad}</td>
+                    <td>${r.ubicacion}</td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Función para cargar resumen por categorías
+        function cargarResumenCategorias() {
+            const contenedor = document.getElementById('resumenCategorias');
+            contenedor.innerHTML = '';
+            
+            // Contar reactivos por categoría
+            const conteo = {};
+            reactivos.forEach(r => {
+                const cat = traducirCategoria(r.categoria);
+                conteo[cat] = (conteo[cat] || 0) + 1;
+            });
+            
+            // Crear tarjetas para cada categoría
+            for (const [categoria, cantidad] of Object.entries(conteo)) {
+                const card = document.createElement('div');
+                card.style.border = '1px solid #ddd';
+                card.style.borderRadius = '5px';
+                card.style.padding = '10px';
+                card.style.backgroundColor = '#f8f9fa';
+                
+                card.innerHTML = `
+                    <h4 style="margin-top: 0;">${categoria}</h4>
+                    <p style="font-size: 24px; font-weight: bold; margin: 0;">${cantidad}</p>
+                    <small>reactivos</small>
+                `;
+                
+                contenedor.appendChild(card);
+            }
+        }
+
+        // Función para actualizar el rombo NFPA según el reactivo seleccionado
+        function actualizarRomboNFPA() {
+            // Estos valores deberían actualizarse según el reactivo seleccionado
+            document.getElementById('nfpa-salud').textContent = '2';
+            document.getElementById('nfpa-inflamabilidad').textContent = '3';
+            document.getElementById('nfpa-reactividad').textContent = '1';
+            document.getElementById('nfpa-especial').textContent = 'W';
+        }
+
+        // Función para cargar reactivos en el select de pedidos
+        function cargarReactivosParaPedido() {
+            const select = document.getElementById('reactivo-pedido');
+            select.innerHTML = '';
+            
+            reactivos.forEach(r => {
+                const option = document.createElement('option');
+                option.value = r.id;
+                option.textContent = `${r.nombre} (${r.ubicacion}) - ${r.cantidad} ${r.unidad}`;
+                select.appendChild(option);
+            });
+        }
+
+        // Función para preparar un pedido
+        function prepararPedido(id) {
+            const reactivo = reactivos.find(r => r.id === id);
+            if (reactivo) {
+                openTab('pedidos');
+                document.getElementById('reactivo-pedido').value = reactivo.id;
+                document.getElementById('unidad-pedido').value = reactivo.unidad;
+            }
+        }
+
+        // Función para enviar un pedido
+        function enviarPedido() {
+            const reactivoId = parseInt(document.getElementById('reactivo-pedido').value);
+            const cantidad = parseFloat(document.getElementById('cantidad-pedido').value);
+            const unidad = document.getElementById('unidad-pedido').value;
+            const solicitante = document.getElementById('solicitante-pedido').value;
+            const proyecto = document.getElementById('proyecto-pedido').value;
+            const fechaRequerida = document.getElementById('fecha-requerida-pedido').value;
+            const justificacion = document.getElementById('justificacion-pedido').value;
+            
+            if (!reactivoId || !cantidad || !unidad || !solicitante || !proyecto || !fechaRequerida || !justificacion) {
+                alert('Por favor complete todos los campos');
+                return;
+            }
+            
+            const reactivo = reactivos.find(r => r.id === reactivoId);
+            if (!reactivo) {
+                alert('Reactivo no encontrado');
+                return;
+            }
+            
+            // Aquí normalmente se enviaría a un servidor
+            alert(`Solicitud enviada:\nReactivo: ${reactivo.nombre}\nCantidad: ${cantidad} ${unidad}\nSolicitante: ${solicitante}\nProyecto: ${proyecto}\nFecha requerida: ${fechaRequerida}`);
+            
+            // Limpiar formulario
+            document.getElementById('cantidad-pedido').value = '';
+            document.getElementById('solicitante-pedido').value = '';
+            document.getElementById('proyecto-pedido').value = '';
+            document.getElementById('fecha-requerida-pedido').value = '';
+            document.getElementById('justificacion-pedido').value = '';
+            
+            openTab('inventario');
+        }
+
+        // Funciones para pestañas
+        function openTab(tabName) {
+            const tabs = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            const tabButtons = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+                if (tabButtons[i].textContent.trim() === tabName.charAt(0).toUpperCase() + tabName.slice(1)) {
+                    tabButtons[i].classList.add('active');
+                }
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Funciones para verificar acceso con contraseña
+        function verificarAcceso(tabName) {
+            tabToOpenAfterAuth = tabName;
+            document.getElementById('passwordModal').style.display = 'block';
+        }
+
+        function cerrarModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function verificarPassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === PASSWORD) {
+                cerrarModal();
+                openTab(tabToOpenAfterAuth);
+            } else {
+                document.getElementById('passwordError').style.display = 'block';
+            }
+        }
+
+        // Funciones de edición y eliminación (simplificadas)
+        function editarReactivo(id) {
+            verificarAcceso('agregar');
+            const reactivo = reactivos.find(r => r.id === id);
+            if (reactivo) {
+                // Llenar formulario con datos del reactivo
+                document.getElementById('nombre').value = reactivo.nombre;
+                document.getElementById('formula').value = reactivo.formula || '';
+                document.getElementById('cantidad').value = reactivo.cantidad;
+                document.getElementById('unidad').value = reactivo.unidad;
+                document.getElementById('pureza').value = reactivo.pureza || '';
+                document.getElementById('categoria').value = reactivo.categoria;
+                document.getElementById('peligrosidad').value = reactivo.peligrosidad;
+                document.getElementById('almacenamiento').value = reactivo.almacenamiento;
+                document.getElementById('fechaCaducidad').value = reactivo.fechaCaducidad || '';
+                document.getElementById('ubicacion').value = reactivo.ubicacion;
+                document.getElementById('proveedor').value = reactivo.proveedor || '';
+                document.getElementById('incompatibilidades').value = reactivo.incompatibilidades || '';
+                
+                // Eliminar el reactivo existente
+                reactivos = reactivos.filter(r => r.id !== id);
+            }
+        }
+
+        function eliminarReactivo(id) {
+            if (confirm('¿Estás seguro de eliminar este reactivo?')) {
+                reactivos = reactivos.filter(r => r.id !== id);
+                cargarReactivos();
+                generarAlertas();
+                cargarReactivosCriticos();
+                cargarResumenCategorias();
+                cargarReactivosParaPedido();
+            }
+        }
+    </script>
+</body>
+</html>
